@@ -72,7 +72,7 @@
 # display.show()
 
 from micropython import const
-import utime as time
+import time
 import framebuf
 
 
@@ -139,7 +139,7 @@ class SH1106(framebuf.FrameBuffer):
     def poweron(self):
         self.write_cmd(_SET_DISP | 0x01)
         if self.delay:
-            time.sleep_ms(self.delay)
+            time.sleep(self.delay/1000)
 
     def flip(self, flag=None, update=True):
         if flag is None:
@@ -246,11 +246,11 @@ class SH1106(framebuf.FrameBuffer):
     def reset(self, res=None):
         if res is not None:
             res(1)
-            time.sleep_ms(1)
+            time.sleep(1/1000)
             res(0)
-            time.sleep_ms(20)
+            time.sleep(20/1000)
             res(1)
-            time.sleep_ms(20)
+            time.sleep(20/1000)
 
 
 class SH1106_I2C(SH1106):
