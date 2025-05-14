@@ -4,8 +4,7 @@ import busio
 import adafruit_ccs811
 import RPi.GPIO as GPIO
 import spidev
-import sh1106
-
+from SH1106 import sh1106
 
 # Initialize SPI for the OLED display
 GPIO.setmode(GPIO.BCM)
