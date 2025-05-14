@@ -1,5 +1,5 @@
 import time
-from SH1106 import sh1106
+import sh1106
 import board
 import busio
 import adafruit_ccs811
