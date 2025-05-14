@@ -1,27 +1,14 @@
 import time
-import sh1106
+from luma.core.interface.serial import spi, gpio
+from luma.core.render import canvas
+from luma.oled.device import sh1106
 import board
 import busio
 import adafruit_ccs811
-import RPi.GPIO as GPIO
-import spidev
 
-# Initialize SPI for the OLED display
-GPIO.setmode(GPIO.BCM)
-DC_PIN = 5
-CS_PIN = 26
-RES_PIN = 6
-GPIO.setup(DC_PIN, GPIO.OUT)
-GPIO.setup(CS_PIN, GPIO.OUT)
-GPIO.setup(RES_PIN, GPIO.OUT)
-spi = spidev.SpiDev()
-spi.open(1, 0) # SPI bus 1, device 0
-spi.max_speed_hz = 8000000  # 8 MHz
-oled = sh1106.SH1106_SPI(128, 64, spi, DC_PIN, RES_PIN, CS_PIN)
-
-oled.init_display()
-oled.text("Hello World!", 0, 0, 1)
-oled.show()
+# Initialize SPI for the OLED display using luma.oled
+serial = spi(port=0, device=0, gpio=gpio(), gpio_DC=23, gpio_RST=24)
+device = sh1106(serial, width=128, height=64)
 
 # I2C setup
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -36,6 +23,9 @@ try:
             eco2 = ccs811.eco2
             tvoc = ccs811.tvoc
             print(f"CO2: {eco2} ppm, TVOC: {tvoc} ppb")
+            with canvas(device) as draw:
+                draw.text((0, 0), f"CO2: {eco2} ppm", fill="white")
+                draw.text((0, 16), f"TVOC: {tvoc} ppb", fill="white")
         time.sleep(1)
 except KeyboardInterrupt:
     print("Exiting...")
