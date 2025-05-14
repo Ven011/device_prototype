@@ -1,5 +1,5 @@
 import time
-from luma.core.interface.serial import spi, gpio
+from luma.core.interface.serial import spi, noop
 from luma.core.render import canvas
 from luma.oled.device import sh1106
 import board
@@ -7,7 +7,7 @@ import busio
 import adafruit_ccs811
 
 # Initialize SPI for the OLED display using luma.oled
-serial = spi(port=0, device=0, gpio=gpio(), gpio_DC=23, gpio_RST=24)
+serial = spi(port=0, device=0, gpio=noop(), gpio_DC=23, gpio_RST=24)
 device = sh1106(serial, width=128, height=64)
 
 # I2C setup
