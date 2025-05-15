@@ -7,7 +7,7 @@ import busio
 import adafruit_ccs811
 
 # Initialize SPI for the OLED display using luma.oled
-serial = spi(port=0, device=0, gpio=noop(), gpio_DC=23, gpio_RST=24)
+serial = spi(port=0, device=0, gpio=noop(), gpio_DC=5, gpio_RST=6, bus_speed=8000000)
 device = sh1106(serial, width=128, height=64)
 
 # I2C setup
