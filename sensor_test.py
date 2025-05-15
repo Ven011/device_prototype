@@ -1,14 +1,15 @@
 import time
-from luma.core.interface.serial import spi, noop
-from luma.core.render import canvas
-from luma.oled.device import sh1106
+import pygame
 import board
 import busio
 import adafruit_ccs811
 
-# Initialize SPI for the OLED display using luma.oled
-serial = spi(port=0, device=0, gpio=noop(), gpio_DC=5, gpio_RST=6, bus_speed=8000000)
-device = sh1106(serial, width=128, height=64)
+# Initialize pygame
+pygame.init()
+window_size = (320, 120)
+screen = pygame.display.set_mode(window_size)
+pygame.display.set_caption("Sensor Data Display")
+font = pygame.font.SysFont(None, 36)
 
 # I2C setup
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -18,14 +19,23 @@ ccs811 = adafruit_ccs811.CCS811(i2c)
 
 # Display sensor data
 try:
-    while True:
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.fill((0, 0, 0))
         if ccs811.data_ready:
             eco2 = ccs811.eco2
             tvoc = ccs811.tvoc
             print(f"CO2: {eco2} ppm, TVOC: {tvoc} ppb")
-            with canvas(device) as draw:
-                draw.text((0, 0), f"CO2: {eco2} ppm", fill="white")
-                draw.text((0, 16), f"TVOC: {tvoc} ppb", fill="white")
+            co2_text = font.render(f"CO2: {eco2} ppm", True, (255, 255, 255))
+            tvoc_text = font.render(f"TVOC: {tvoc} ppb", True, (255, 255, 255))
+            screen.blit(co2_text, (10, 20))
+            screen.blit(tvoc_text, (10, 60))
+        pygame.display.flip()
         time.sleep(1)
 except KeyboardInterrupt:
     print("Exiting...")
+finally:
+    pygame.quit()
