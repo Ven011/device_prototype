@@ -28,11 +28,14 @@ try:
         if ccs811.data_ready:
             eco2 = ccs811.eco2
             tvoc = ccs811.tvoc
-            print(f"CO2: {eco2} ppm, TVOC: {tvoc} ppb")
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{timestamp}] CO2: {eco2} ppm, TVOC: {tvoc} ppb")
             co2_text = font.render(f"CO2: {eco2} ppm", True, (255, 255, 255))
             tvoc_text = font.render(f"TVOC: {tvoc} ppb", True, (255, 255, 255))
+            time_text = font.render(timestamp, True, (180, 180, 180))
             screen.blit(co2_text, (10, 20))
             screen.blit(tvoc_text, (10, 60))
+            screen.blit(time_text, (10, 90))
         pygame.display.flip()
         time.sleep(1)
 except KeyboardInterrupt:
