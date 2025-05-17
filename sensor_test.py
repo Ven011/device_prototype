@@ -15,7 +15,7 @@ font = pygame.font.SysFont(None, 36)
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # Sensor init
-ccs811 = adafruit_ccs811.CCS811(i2c)
+ccs811 = adafruit_ccs811.CCS811(i2c, address=0x5A)
 
 # Display sensor data
 try:
