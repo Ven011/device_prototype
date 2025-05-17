@@ -40,8 +40,8 @@ try:
             screen.blit(co2_text, (10, 20))
             screen.blit(tvoc_text, (10, 60))
             with canvas(oled) as draw:
-                draw.text((0, 10), f"CO2: {eco2} ppm", fill="yellow")
-                draw.text((0, 30), f"TVOC: {tvoc} ppb", fill="yellow")
+                draw.text((0, 32), f"CO2: {eco2} ppm", fill="blue")
+                draw.text((0, 48), f"TVOC: {tvoc} ppb", fill="blue")
         pygame.display.flip()
         time.sleep(1)
 except KeyboardInterrupt:
