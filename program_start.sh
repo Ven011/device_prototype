@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source the virtual environment
-source /home/raspberrypi/sensor_program/bin/activate
+source /home/raspberrypi/my_env/bin/activate
 
 # start the program
-python /home/raspberrypi/sensor_program/device_prototype/sensor_test.py
+python /home/raspberrypi/my_env/device_prototype/sensor_test.py
